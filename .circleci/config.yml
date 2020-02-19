@@ -9,7 +9,7 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
-          name: Build
+          name: Build-Push
           command: |
             TAG=01
             docker build --no-cache -t $MYREPO/$MYIMAGE:$TAG .
