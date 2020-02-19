@@ -1,0 +1,20 @@
+version: 2.1	
+jobs:
+  Build-Push:
+    docker:
+      - image: circleci/node:10.19.0-stretch
+    working_directory: ~/workdir
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build
+          command: |
+            TAG=01
+            docker build --no-cache -t $MYREPO/$MYIMAGE:$TAG .
+            echo $DOCKER_PW | docker login --username $DOCKER_USER --password-stdin docker.io
+            docker push docker.io/$MYREPO/$MYIMAGE:$TAG
+workflows:
+  Build-image:
+    jobs:
+      - Build-Push
